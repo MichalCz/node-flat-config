@@ -39,7 +39,9 @@ A basic example, the defaults:
 
 The config file (/etc/myapp/myconfig):
     
+    # a comment
     app-port=3080
+    # another comment
     limit-connections=20
     entries=1024
 
@@ -64,10 +66,23 @@ The invocation:
 
 ### The arguments/config file parser
 
+The parser is based on traditional unix 'long-style' arguments, something like
+`--a-key=a\ value`. 
 
+Every hyphen in the config/argument name causes the parser will attempt to 
+descend to the child object.
+
+If the argument name starts with `--no-*` the parser will set the value to
+`false`.
+
+If the value is not given (`--argument`) the parser will set the value to
+`true`.
+
+See the example above.
 
 ### flatconfig.loadConfig(defaults, [config, [args]])
 
+Loads or uses the defaults, configuration and arguments.
 Returns the resulting config object.
 
 Parameters are:
@@ -85,11 +100,47 @@ Parameters are:
 
 ### flatconfig.parseArgs(args, [flatobj])
 
-### flatconfig.flatten(args, [obj])
+Parses the arguments to a flat hash.
 
-### flatconfig.deflatten(obj, [args, [prefix]])
+Parameters:
+
+* {Array} **args**: an argument list array
+* {Object} **flatobj**: optional existing object to fill
+
+### flatconfig.flatten(obj, [args, [prefix]])
+
+This is a helper function to flatten an object to a flat parameter hash.
+
+Might be helpful to create a basic config file by listing all parameters 
+within the defaults file.
+
+Parameters:
+
+* {Object} **obj**: object to flatten
+* {Array} **args**: an optional object to build.
+* {String} **prefix**: an optional prefix to start with (default: '--')
+
+### flatconfig.deflatten(args, [obj])
+
+This is a helper function to deflatten a flat parameter hash to an object.
+
+Might be helpful to create a basic config file by listing all parameters 
+within the defaults file.
+
+Parameters:
+
+* {Object} **obj**: object to flatten
+* {Array} **args**: an optional object to build.
 
 
+Todo
+======
+
+Some thing still need work, especially:
+
+* array handling (currently not even tested)
+* loading multiple config files (currently achievable using `parseArgs`)
+* better comments within the config files
 
 License
 =========
