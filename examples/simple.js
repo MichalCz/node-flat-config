@@ -28,7 +28,9 @@
  * A simple HTTP server process
  * 
  * Try invoking this file like:
- *   node simple --config=./myvars  
+ *   node simple --config=./myvars
+ * or
+ *   node examples/simple --config=./examples/myvars --no-all-fixes-global --all-fixes-heap --quiet=
  */
 
 var path = require('path');
@@ -43,8 +45,6 @@ if (!args['config']) {
     process.exit(1);
 }
 
-console.dir(flatconfig);
-
 var config = flatconfig.loadConfig(__dirname + '/cfg.json', 
         path.resolve(process.cwd(), args['config']), 
         args),
@@ -58,5 +58,6 @@ if (!config.quiet) {
     }
     console.log('');
     console.log('The resulting JSON is: ');
-    console.log(JSON.stringify(config));
 }
+
+console.log(JSON.stringify(config));

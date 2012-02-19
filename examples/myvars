@@ -4,4 +4,5 @@
 foo=7
 
 # sets the cfg.bar.baz key to "bbb"
-bar-baz="bbb"
+# spaces in config files are allowed
+bar-baz = bbb
