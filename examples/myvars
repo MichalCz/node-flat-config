@@ -1,0 +1,7 @@
+# An example config file
+
+# sets the foo value
+foo=7
+
+# sets the cfg.bar.baz key to "bbb"
+bar-baz="bbb"
