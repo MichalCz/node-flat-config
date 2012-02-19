@@ -22,19 +22,66 @@ the config file if you feel more comfortable with that.
 API
 -----
 
-A basic example
+A basic example, the defaults:
+
+    {
+        "app": {
+            "mainmodule": "lib/main", 
+            "port": 8080
+        }, 
+        "limit": {
+            "connections": 30,
+            "entries": 4096
+        },
+        "quiet": true,
+        "test": true
+    }
+
+The config file (/etc/myapp/myconfig):
+    
+    app-port=3080
+    limit-connections=20
+    entries=1024
+
+The application loader (say app.js):
 
     // Initialize flatconfig
     var flatconfig = require('flatconfig');
     
-    // 
+    // Load the configuration
     var args = flatconfig.parseArgs(process.argv.slice(2)),
-        config = flatconfig.loadConfig(__dirname + '/cfg.json', 
-                  path.resolve(process.cwd(), args['config']), 
+        config = flatconfig.loadConfig(
+                  path.resolve(__dirname, 'cfg.json'), 
+                  path.resolve(process.cwd(), args['config']),
                   args),
-  
-  
+    
+    var app = require(config.app.mainmodule);
+    app.init(config);
+
+The invocation:
+    
+    node app --config=/etc/myapp/myconfig --no-test --no-quiet --app-port=4080
+
+### The arguments/config file parser
+
+
+
 ### flatconfig.loadConfig(defaults, [config, [args]])
+
+Returns the resulting config object.
+
+Parameters are:
+ 
+* {Object|String} **defaults**: the base object to load
+  - if an object it passed it will modify it
+  - if a string is passed it will attempt to load a JSON file
+* {Object|String} **config**: the configuration to mixin
+  - a object listing the configuration directives is expected, or
+  - a path pointing to the configuration file (absolute)
+  - the argument is optional, empty values will be ignored
+* {Array} **args**: the command line arguments
+  - the command line arguments
+  - if not given the default value is `process.argv.slice(2)`
 
 ### flatconfig.parseArgs(args, [flatobj])
 
