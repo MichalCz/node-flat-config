@@ -4,6 +4,46 @@ Flat Config Parser
 The goal of this project is to provide a simple module that can load a JSON 
 defaults file, read a flat configuration file and parse command line arguments.
 
+Synopsis
+----------
+
+Usually an application needs a basic `defaults` structure, some `config files` 
+that override defaults and `command line arguments` that override the resulting
+object.
+
+The usual scenario is when **Flat Config** loads a JSON file for defaults,
+then loads a `key-subkey=value` style configuration file and mixes that with 
+command line arguments.
+
+You may also provide **Flat Config** with any existing javascript object and
+it will work. You can also provide an array of configuration entries instead of
+the config file if you feel more comfortable with that.
+
+API
+-----
+
+A basic example
+
+    // Initialize flatconfig
+    var flatconfig = require('flatconfig');
+    
+    // 
+    var args = flatconfig.parseArgs(process.argv.slice(2)),
+        config = flatconfig.loadConfig(__dirname + '/cfg.json', 
+                  path.resolve(process.cwd(), args['config']), 
+                  args),
+  
+  
+### flatconfig.loadConfig(defaults, [config, [args]])
+
+### flatconfig.parseArgs(args, [flatobj])
+
+### flatconfig.flatten(args, [obj])
+
+### flatconfig.deflatten(obj, [args, [prefix]])
+
+
+
 License
 =========
 
