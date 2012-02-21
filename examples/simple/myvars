@@ -5,4 +5,11 @@ foo=7
 
 # sets the cfg.bar.baz key to "bbb"
 # spaces in config files are allowed
-bar-baz = bbb
+bar.baz = bbb
+
+[internal]
+juggle = 3
+keys.limit = 500
+
+output = -
+output = ${HOME}/.test

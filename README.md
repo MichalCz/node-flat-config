@@ -52,7 +52,7 @@ The application loader (say app.js):
     
     // Load the configuration
     var args = flatconfig.parseArgs(process.argv.slice(2)),
-        config = flatconfig.loadConfig(
+        config = flatconfig.loadSync(
                   path.resolve(__dirname, 'cfg.json'), 
                   path.resolve(process.cwd(), args['config']),
                   args),
@@ -80,9 +80,9 @@ If the value is not given (`--argument`) the parser will set the value to
 
 See the example above.
 
-### flatconfig.loadConfig(defaults, [config, [args]])
+### flatconfig.loadSync(defaults, [config, [args]])
 
-Loads or uses the defaults, configuration and arguments.
+A helper method that loads or uses the defaults, configuration and arguments.
 Returns the resulting config object.
 
 Parameters are:
@@ -98,14 +98,25 @@ Parameters are:
   - the command line arguments
   - if not given the default value is `process.argv.slice(2)`
 
-### flatconfig.parseArgs(args, [flatobj])
+### flatconfig.loadDefaults(path, callback)
 
-Parses the arguments to a flat hash.
+**Not Yet Implemented**
 
-Parameters:
+### flatconfig.loadDefaultsSync(path)
 
-* {Array} **args**: an argument list array
-* {Object} **flatobj**: optional existing object to fill
+**Not Yet Implemented**
+
+### flatconfig.loadIni(path, flatobj, required, sect_delm, item_delm)
+
+**To be documented**
+
+### flatconfig.loadIniSync(path, flatobj, required, callback, sect_delm, item_delm)
+
+**To be documented**
+
+### flatconfig.setArgs(argv, flatobj)
+
+**To be documented**
 
 ### flatconfig.flatten(obj, [args, [prefix]])
 
@@ -131,6 +142,15 @@ Parameters:
 
 * {Object} **obj**: object to flatten
 * {Array} **args**: an optional object to build.
+
+### flatconfig.parseArgs(args, [flatobj])
+
+Parses the arguments to a flat hash.
+
+Parameters:
+
+* {Array} **args**: an argument list array
+* {Object} **flatobj**: optional existing object to fill
 
 
 Todo

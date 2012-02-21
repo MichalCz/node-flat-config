@@ -16,5 +16,15 @@
             "heap": false 
         }
     },
+    "internal": {
+        "juggle": 1,
+        "keys": {
+            "limit": 450,
+            "minimum": 150,
+            "normal": 300 
+        },
+        "output": [],
+        "preset": []
+    },
     "quiet": false
 }
