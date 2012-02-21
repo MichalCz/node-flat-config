@@ -40,9 +40,9 @@ A basic example, the defaults:
 The config file (/etc/myapp/myconfig):
     
     # a comment
-    app-port=3080
+    app.port=3080
     # another comment
-    limit-connections=20
+    limit.connections=20
     entries=1024
 
 The application loader (say app.js):
