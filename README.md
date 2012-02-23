@@ -52,7 +52,7 @@ The application loader (say app.js):
     
     // Load the configuration
     var args = flatconfig.parseArgs(process.argv.slice(2)),
-        config = flatconfig.loadSync(
+        config = flatconfig.loa(
                   path.resolve(__dirname, 'cfg.json'), 
                   path.resolve(process.cwd(), args['config']),
                   args),
@@ -80,7 +80,7 @@ If the value is not given (`--argument`) the parser will set the value to
 
 See the example above.
 
-### flatconfig.loadSync(defaults, [config, [args]])
+### flatconfig.load(defaults, [config, [args]])
 
 A helper method that loads or uses the defaults, configuration and arguments.
 Returns the resulting config object.
@@ -98,19 +98,7 @@ Parameters are:
   - the command line arguments
   - if not given the default value is `process.argv.slice(2)`
 
-### flatconfig.loadDefaults(path, callback)
-
-**Not Yet Implemented**
-
-### flatconfig.loadDefaultsSync(path)
-
-**Not Yet Implemented**
-
 ### flatconfig.loadIni(path, flatobj, required, sect_delm, item_delm)
-
-**To be documented**
-
-### flatconfig.loadIniSync(path, flatobj, required, callback, sect_delm, item_delm)
 
 **To be documented**
 
@@ -143,6 +131,8 @@ Parameters:
 * {Object} **obj**: object to flatten
 * {Array} **args**: an optional object to build.
 
+This method will throw an error if a key is not found.
+
 ### flatconfig.parseArgs(args, [flatobj])
 
 Parses the arguments to a flat hash.
@@ -158,8 +148,11 @@ Todo
 
 Some thing still need work, especially:
 
-* array handling (currently not even tested)
 * loading multiple config files (currently achievable using `parseArgs`)
+
+Done:
+
+* array handling
 * better comments within the config files
 
 License
