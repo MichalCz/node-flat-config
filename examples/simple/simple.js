@@ -25,7 +25,7 @@
  * @fileoverview
  * @author Michał Czapracki
  *
- * A simple HTTP server process
+ * A simple config example
  * 
  * Try invoking this file like:
  *   node simple --config=./myvars
@@ -45,12 +45,15 @@ if (!args['config']) {
     process.exit(1);
 }
 
-var config = flatconfig.loadSync(__dirname + '/cfg.json', 
-        path.resolve(process.cwd(), args['config']), 
+var cfgpath = args['config'][0];
+
+delete args['config'];
+
+var config = flatconfig.load(__dirname + '/cfg.json', 
+        path.resolve(process.cwd(), cfgpath), 
         args),
     flat = flatconfig.flatten(config);
-    ;
-
+    
 if (!config.quiet) {
     console.log('The configuration resolved to: ');
     for (var k in flat) {
