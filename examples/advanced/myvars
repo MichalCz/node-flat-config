@@ -1,0 +1,5 @@
+[modules]
+foo = 3
+foo = 'bcd'
+bar = 7
+bar = 'abc'
