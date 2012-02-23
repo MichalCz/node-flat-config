@@ -1,6 +1,6 @@
 {
     "name": "flatconfig",
-    "version": "0.2.0",
+    "version": "0.3.1",
     "description": "Simple node.js config file and arguments parser.",
     "author": "Michal Czapracki",
     "homepage": "https://github.com/MichalCz/node-flat-config",
