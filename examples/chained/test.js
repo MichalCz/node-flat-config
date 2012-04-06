@@ -25,18 +25,18 @@
  * @fileoverview
  * @author Michał Czapracki
  *
- * An extended config example
+ * A chained config example
  * 
  * Try invoking this file like:
  *   node simple --config=./myvars
  * or
- *   node examples/simple --config=./examples/myvars --no-all-fixes-global --all-fixes-heap --quiet=
+ *   node examples/chained/test --config=./examples/chained/myvars --no-all-fixes-global --all-fixes-heap --quiet=
  */
 
 var path = require('path');
 
 var flatconfig = require('flatconfig'),
-    args = flatconfig.parseArgs(process.argv.slice(2));
+    args = flatconfig.setArgs(process.argv.slice(2));
 
 if (!args['config']) {
     console.log('Usage: ' + process.argv.slice(0, 2).join(' ') 
@@ -49,20 +49,35 @@ var cfgpath = args['config'];
 
 delete args['config'];
 
-var config = require(__dirname + '/cfg.js');
+var config = require(__dirname + '/cfg.js'), configs = [];
 
-for (var i = 0; i < cfgpath.length; i++)
-	flatconfig.join.ini(path.resolve(process.cwd(), cfgpath[i]));
+while (cfgpath.length) {
+	var c = cfgpath.shift();
+	if (!c || ~configs.indexOf(c))
+		continue;
+	
+	configs.push(c);
+	
+	flatconfig.join.ini(config, path.resolve(process.cwd(), c));
+	
+	if (config._includes)
+		cfgpath.concat(config._includes);
+		delete config._includes;
+}
 
-flatconfig.join.args(process.argv.slice(2));
+flatconfig.join.args(config, args);
 
 if (!config.quiet) {
+	var flat = flatconfig.flatten(config);
+	
     console.log('The configuration resolved to: ');
+    
     for (var k in flat) {
         console.log('  ', k, '=', JSON.stringify(flat[k]));
     }
+    
     console.log('');
     console.log('The resulting JSON is: ');
 }
 
-console.log(JSON.stringify(cfg));
+console.log(JSON.stringify(config));

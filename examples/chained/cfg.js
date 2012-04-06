@@ -1,6 +1,5 @@
 
-var path = require('path'),
-	Config = require('flatconfig').Config;
+var path = require('path');
 
 var config = module.exports;
 
@@ -21,7 +20,7 @@ config.application = {
 };
 
 config.include = function(key, file1, file2) {
-    console.log('include', key, file1, file2);
+    (this._includes = this._includes || []).concat(Array.prototype.slice.call(arguments, 1))
 };
 
 config.jailed = false;

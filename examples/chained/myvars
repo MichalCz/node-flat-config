@@ -1,3 +1,9 @@
+jailed = true
+
+[application]
+base = .test
+core.directories = false
+
 [modules]
 foo = 3
 foo = 'bcd'
