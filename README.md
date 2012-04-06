@@ -51,17 +51,22 @@ The application loader (say app.js):
     var flatconfig = require('flatconfig');
     
     // Load the configuration
-    var args = flatconfig.parseArgs(process.argv.slice(2)),
-        config = flatconfig.loa(
+    var args   = flatconfig.setArgs(process.argv.slice(2)),
+    	cfg = args['config'];
+    	
+    // remove some 'special' command line args not found in config.
+    delete args['config'];
+    	
+    var config = flatconfig.load(
                   path.resolve(__dirname, 'cfg.json'), 
-                  path.resolve(process.cwd(), args['config']),
+                  path.resolve(process.cwd(), cfg),
                   args),
     
     var app = require(config.app.mainmodule);
     app.init(config);
 
-The invocation:
-    
+The usage:
+
     node app --config=/etc/myapp/myconfig --no-test --no-quiet --app-port=4080
 
 ### The arguments/config file parser
@@ -83,20 +88,46 @@ See the example above.
 ### flatconfig.load(defaults, [config, [args]])
 
 A helper method that loads or uses the defaults, configuration and arguments.
-Returns the resulting config object.
+Returns modified defaults (the resulting config object).
 
 Parameters are:
  
-* {Object|String} **defaults**: the base object to load
+* {Object|String} (inout) **defaults**: the base object to load
   - if an object it passed it will modify it
   - if a string is passed it will attempt to load a JSON file
-* {Object|String} **config**: the configuration to mixin
+* {Object|String} (in) **config**: the configuration to mixin
   - a object listing the configuration directives is expected, or
   - a path pointing to the configuration file (absolute)
   - the argument is optional, empty values will be ignored
-* {Array} **args**: the command line arguments
+* {Array} (in) **args**: the command line arguments
   - the command line arguments
   - if not given the default value is `process.argv.slice(2)`
+
+### flatconfig.join.ini(defaults, ini)
+
+Allows you to **deflatten** an ini file to the default config structure.
+Returns modified defaults (the resulting config object).
+
+Parameters are:
+ 
+* {Object} (inout) **defaults**: the base object to load
+  - if an object it passed it will modify it
+* {Object|String} (in) **ini**: the configuration to mixin
+  - a "flat" object listing the configuration directives is expected, or
+  - a path pointing to the configuration file (absolute)
+
+### flatconfig.join.args(defaults, args)
+
+Allows you to **deflatten** command line arguments to the default config structure.
+Returns modified defaults (the resulting config object).
+
+Parameters are:
+ 
+* {Object} (inout) **defaults**: the base object to load
+  - if an object it passed it will modify it
+* {Object|String} (in) **args**: the configuration to mixin
+  - a "flat" object listing the configuration directives is expected, or
+  - if no object is passed, the process.argv.slice(2) will be takes as default.
 
 ### flatconfig.loadIni(path, flatobj, required, sect_delm, item_delm)
 
@@ -104,7 +135,12 @@ Parameters are:
 
 ### flatconfig.setArgs(argv, flatobj)
 
-**To be documented**
+Parses the arguments to a flat hash.
+
+Parameters:
+
+* {Array} **args**: an argument list array
+* {Object} **flatobj**: optional existing object to fill
 
 ### flatconfig.flatten(obj, [args, [prefix]])
 
@@ -115,9 +151,9 @@ within the defaults file.
 
 Parameters:
 
-* {Object} **obj**: object to flatten
-* {Array} **args**: an optional object to build.
-* {String} **prefix**: an optional prefix to start with (default: '--')
+* {Object} (in) **obj**: object to flatten
+* {Array} (inout) **args**: an optional object to build.
+* {String} (in) **prefix**: an optional prefix to start with (default: '--')
 
 ### flatconfig.deflatten(args, [obj])
 
@@ -128,32 +164,25 @@ within the defaults file.
 
 Parameters:
 
-* {Object} **obj**: object to flatten
-* {Array} **args**: an optional object to build.
+* {Object} (in) **obj**: object to flatten
+* {Array} (inout) **args**: an optional object to build.
 
 This method will throw an error if a key is not found.
 
 ### flatconfig.parseArgs(args, [flatobj])
 
-Parses the arguments to a flat hash.
+**Deprecated**: use compatible flatconfig.setArgs instead.
 
-Parameters:
-
-* {Array} **args**: an argument list array
-* {Object} **flatobj**: optional existing object to fill
-
+Method will be removed in 1.0.
 
 Todo
 ======
-
-Some thing still need work, especially:
-
-* loading multiple config files (currently achievable using `parseArgs`)
 
 Done:
 
 * array handling
 * better comments within the config files
+* loading multiple config files (currently achievable using `parseArgs`)
 
 License
 =========
