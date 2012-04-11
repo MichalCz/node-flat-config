@@ -12,8 +12,8 @@ that override defaults and `command line arguments` that override the resulting
 object.
 
 The usual scenario is when **Flat Config** loads a JSON file for defaults,
-then loads a `key-subkey=value` style configuration file and mixes that with 
-command line arguments.
+then loads a number of `key-subkey=value` style configuration files and 
+mixes that with command line arguments.
 
 You may also provide **Flat Config** with any existing javascript object and
 it will work. You can also provide an array of configuration entries instead of
